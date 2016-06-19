@@ -36,16 +36,16 @@ public class KColoring<V> {
 
     /***********************parameters*********************************/
     private Random random = new Random();
-    private int TABU_BASE = 15;
-    private int TABU_MAX = 20;
+//    private int TABU_BASE = 15;
+//    private int TABU_MAX = 20;
     private int MAX_FAIL_COUNT = 100000;
     /***********************parameters*********************************/
 
 
-    public void setTabuT(int base, int max){
-        TABU_BASE = base;
-        TABU_MAX = max;
-    }
+//    public void setTabuT(int base, int max){
+//        TABU_BASE = base;
+//        TABU_MAX = max;
+//    }
 
     private void rollBack(){
         System.arraycopy(bakVColors, 0, vColors, 0, vColors.length);
@@ -175,7 +175,8 @@ public class KColoring<V> {
             ++conflictTable[u][bestC];
         }
         ++iter;
-        tabuTable[bestV][oriC] = iter + TABU_BASE + random.nextInt(TABU_MAX-TABU_BASE);
+        //tabuTable[bestV][oriC] = iter + TABU_BASE + random.nextInt(TABU_MAX-TABU_BASE);
+        tabuTable[bestV][oriC] = iter + f + random.nextInt(10);
     }
 
     private void perturbation(int strength){
@@ -220,7 +221,6 @@ public class KColoring<V> {
         K = k;
         init();
         localSearch();
-        System.out.println(f);
-        return false;
+        return f==0 ? true : false;
     }
 }

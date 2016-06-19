@@ -58,6 +58,6 @@ public class Main {
 //        g.addEdge("e","d");
 //
 //        KColoring<String> solver = new KColoring<>(g);
-        solver.solve(50);
+        System.out.print(solver.solve(49));
     }
 }
