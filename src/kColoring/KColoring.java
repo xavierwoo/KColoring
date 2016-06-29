@@ -3,6 +3,7 @@ package kColoring;
 import org.jgrapht.graph.SimpleGraph;
 import org.jgrapht.graph.DefaultEdge;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -196,7 +197,7 @@ public class KColoring<V> {
         reachLocalOpt = false;
     }
 
-    private void localSearch(){
+    private void localSearch(int maxIter){
         iter = 0;
         while(true){
             findMove();
@@ -210,6 +211,7 @@ public class KColoring<V> {
 //                }
             }
             if(f==0)break;
+            if(iter >= maxIter)break;
 
             if(failCount >= MAX_FAIL_COUNT){
                 perturbation(vColors.length/3);
@@ -217,10 +219,27 @@ public class KColoring<V> {
         }
     }
 
-    public boolean solve(int k){
+    public boolean solve(int k, int maxIterations){
         K = k;
         init();
-        localSearch();
-        return f==0 ? true : false;
+        localSearch(maxIterations);
+        return f==0;
     }
+
+    public ArrayList<ArrayList<V>> getConflictVertexes(){
+        ArrayList<ArrayList<V>> conflictGroup = new ArrayList<>();
+
+        for(int i=0; i<K; ++i){
+            conflictGroup.add(new ArrayList<>());
+        }
+
+        for(int v=0; v < conflictTable.length; ++v){
+            if(conflictTable[v][vColors[v]] > 0){
+                conflictGroup.get(vColors[v]).add(indexVertexMap.get(v));
+            }
+        }
+
+        return conflictGroup;
+    }
+
 }
